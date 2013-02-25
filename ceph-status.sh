@@ -1,20 +1,5 @@
 #!/bin/bash
 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-# Created by Julien Recurt <julien@recurt.fr> - 2013
-
 # Initialising variables
 # See: http://ceph.com/docs/master/rados/operations/pg-states/
 creating=0
@@ -39,16 +24,31 @@ remapped=0
 pginfo=$(ceph status | sed -n "s/.*pgmap/pgmap/p")
 pgtotal=$(echo $pginfo | cut -d':' -f2 | sed 's/[^0-9]//g')
 pgstats=$(echo $pginfo | cut -d':' -f3 | cut -d';' -f1| sed 's/ /\\ /g')
-pggdegraded=$(echo $pginfo cut -d';' -f2|sed -n '/degraded/s/.*degraded (\([^%]*\)%.*/\1/p')
+pggdegraded=$(echo $pginfo | cut -d';' -f2|sed -n '/degraded/s/.*degraded (\([^%]*\)%.*/\1/p')
 if [[ "$pggdegraded" == "" ]]
 then
   pggdegraded=0
 fi
-# unfound percent
-pgunfound=$(echo $pginfo cut -d';' -f2|sed -n '/unfound/s/.*unfound (\([^%]*\)%.*/\1/p')
+# unfound (0.004%)
+pgunfound=$(echo $pginfo | cut -d';' -f2|sed -n '/unfound/s/.*unfound (\([^%]*\)%.*/\1/p')
 if [[ "$pgunfound" == "" ]]
 then
   pgunfound=0
+fi
+
+# write kbps B/s
+echo $pginfo
+wrbps=$(echo $pginfo | sed -n '/pgmap/s/.* \([0-9]*.\)B\/s wr.*/\1/p' | sed -e "s/K/*1000/g;s/M/*1000*1000/;s/G/*1000*1000*1000/" | bc)
+if [[ "$wrbps" == "" ]]
+then
+  wrbps=0
+fi
+
+# ops
+ops=$(echo $pginfo | sed -n '/pgmap/s/.* \([0-9]*\)op\/s.*/\1/p')
+if [[ "$ops" == "" ]]
+then
+  ops=0
 fi
 
 # Explode array
@@ -261,5 +261,11 @@ case $1 in
   ;;
   remapped)
     echo $remapped
+  ;;
+  ops)
+    echo $ops
+  ;;
+  wrbps)
+    echo $wrbps
   ;;
 esac
