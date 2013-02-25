@@ -1,0 +1,265 @@
+#!/bin/bash
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Created by Julien Recurt <julien@recurt.fr> - 2013
+
+# Initialising variables
+# See: http://ceph.com/docs/master/rados/operations/pg-states/
+creating=0
+active=0
+clean=0
+down=0
+replay=0
+splitting=0
+scrubbing=0
+degraded=0
+inconsistent=0
+peering=0
+repair=0
+recovering=0
+backfill=0
+waitBackfill=0
+incomplete=0
+stale=0
+remapped=0
+
+# Get data
+pginfo=$(ceph status | sed -n "s/.*pgmap/pgmap/p")
+pgtotal=$(echo $pginfo | cut -d':' -f2 | sed 's/[^0-9]//g')
+pgstats=$(echo $pginfo | cut -d':' -f3 | cut -d';' -f1| sed 's/ /\\ /g')
+pggdegraded=$(echo $pginfo cut -d';' -f2|sed -n '/degraded/s/.*degraded (\([^%]*\)%.*/\1/p')
+if [[ "$pggdegraded" == "" ]]
+then
+  pggdegraded=0
+fi
+# unfound percent
+pgunfound=$(echo $pginfo cut -d';' -f2|sed -n '/unfound/s/.*unfound (\([^%]*\)%.*/\1/p')
+if [[ "$pgunfound" == "" ]]
+then
+  pgunfound=0
+fi
+
+# Explode array
+IFS=', ' read -a array <<< "$pgstats"
+for element in "${array[@]}"
+do
+    element=$(echo "$element" | sed 's/^ *//g')
+    # Get elements
+    number=$(echo $element | cut -d' ' -f1)
+    data=$(echo $element | cut -d' ' -f2)
+
+    # Agregate data
+    if [ "$(echo $data | grep creating | wc -l)" == 1 ]
+    then
+	  creating=$(echo $creating+$number|bc)
+    fi
+
+    if [ "$(echo $data | grep active | wc -l)" == 1 ]
+    then
+	  active=$(echo $active+$number|bc)
+    fi
+
+    if [ "$(echo $data | grep clean | wc -l)" == 1 ]
+    then
+	  clean=$(echo $clean+$number|bc)
+    fi
+
+    if [ "$(echo $data | grep down | wc -l)" == 1 ]
+    then
+	  down=$(echo $down+$number|bc)
+    fi
+
+    if [ "$(echo $data | grep replay | wc -l)" == 1 ]
+    then
+	  replay=$(echo $replay+$number|bc)
+    fi
+
+    if [ "$(echo $data | grep splitting | wc -l)" == 1 ]
+    then
+	  splitting=$(echo $splitting+$number|bc)	  
+    fi
+
+    if [ "$(echo $data | grep scrubbing | wc -l)" == 1 ]
+    then
+	  scrubbing=$(echo $scrubbing+$number|bc)
+    fi
+
+    if [ "$(echo $data | grep degraded | wc -l)" == 1 ]
+    then
+	  degraded=$(echo $degraded+$number|bc)
+    fi
+
+    if [ "$(echo $data | grep inconsistent | wc -l)" == 1 ]
+    then
+	  inconsistent=$(echo $inconsistent+$number|bc)
+    fi
+
+    if [ "$(echo $data | grep peering | wc -l)" == 1 ]
+    then
+	  peering=$(echo $peering+$number|bc)
+    fi
+
+    if [ "$(echo $data | grep repair | wc -l)" == 1 ]
+    then
+	  repair=$(echo $repair+$number|bc)
+    fi
+
+    if [ "$(echo $data | grep recovering | wc -l)" == 1 ]
+    then
+	  recovering=$(echo $recovering+$number|bc)
+    fi
+
+    if [ "$(echo $data | grep backfill | wc -l)" == 1 ]
+    then
+	  backfill=$(echo $backfill+$number|bc)
+    fi
+
+    if [ "$(echo $data | grep "wait-backfill" | wc -l)" == 1 ]
+    then
+	  waitBackfill=$(echo $waitBackfill+$number|bc)
+    fi
+
+    if [ "$(echo $data | grep incomplete | wc -l)" == 1 ]
+    then
+	  incomplete=$(echo $incomplete+$number|bc)
+    fi
+
+    if [ "$(echo $data | grep stale | wc -l)" == 1 ]
+    then
+	  stale=$(echo $stale+$number|bc)
+    fi
+
+    if [ "$(echo $data | grep remapped | wc -l)" == 1 ]
+    then
+	  remapped=$(echo $remapped+$number|bc)
+    fi
+done
+
+function ceph_osd_up_percent()
+{
+  OSD_COUNT=$(ceph osd dump |grep "^osd"| wc -l)
+  OSD_DOWN=$(ceph osd dump |grep "^osd"| awk '{print $1 " " $2 " " $3}'|grep up|wc -l)
+  COUNT=$(echo "scale=2; $OSD_DOWN*100/$OSD_COUNT" |bc)
+  if [[ "$COUNT" != "" ]]
+  then
+    echo $COUNT
+  else
+    echo "0"
+  fi
+}
+
+function ceph_osd_in_percent()
+{
+  OSD_COUNT=$(ceph osd dump |grep "^osd"| wc -l)
+  OSD_DOWN=$(ceph osd dump |grep "^osd"| awk '{print $1 " " $2 " " $3}'|grep in|wc -l)
+  COUNT=$(echo "scale=2; $OSD_DOWN*100/$OSD_COUNT" | bc)
+  if [[ "$COUNT" != "" ]]
+  then
+    echo $COUNT
+  else
+    echo "0"
+  fi
+
+}
+
+function ceph_mon_get_active()
+{
+  ACTIVE=$(ceph status|sed -n '/monmap/s/.* \([0-9]*\) mons.*/\1/p')
+  if [[ "$ACTIVE" != "" ]]
+  then
+    echo $ACTIVE
+  else
+    echo 0
+  fi
+}
+
+# Return the value
+case $1 in
+  rados_total)
+    rados df | grep "total space"| awk '{print $3}'
+  ;;
+  rados_used)
+    rados df | grep "total used"| awk '{print $3}'
+  ;;
+  rados_free)
+    rados df | grep "total avail"| awk '{print $3}'
+  ;;
+  mon)
+    ceph_mon_get_active
+  ;;
+  up)
+    ceph_osd_up_percent
+  ;;
+  "in")
+    ceph_osd_in_percent
+  ;;
+  degraded_percent)
+    echo $pggdegraded
+  ;;
+  pgtotal)
+    echo $pgtotal
+  ;;
+  creating)
+    echo $creating
+  ;;
+  active)
+    echo $active
+  ;;
+  clean)
+    echo $clean
+  ;;
+  down)
+    echo $down
+  ;;
+  replay)
+    echo $replay
+  ;;
+  splitting)
+    echo $splitting
+  ;;
+  scrubbing)
+    echo $scrubbing
+  ;;
+  degraded)
+    echo $degraded
+  ;;
+  inconsistent)
+    echo $inconsistent
+  ;;
+  peering)
+    echo $peering
+  ;;
+  repair)
+    echo $repair
+  ;;
+  recovering)
+    echo $recovering
+  ;;
+  backfill)
+    echo $backfill
+  ;;
+  waitBackfill)
+    echo $waitBackfill
+  ;;
+  incomplete)
+    echo $incomplete
+  ;;
+  stale)
+    echo $stale
+  ;;
+  remapped)
+    echo $remapped
+  ;;
+esac
