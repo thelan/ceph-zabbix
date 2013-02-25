@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2013-02-25T16:24:16Z</date>
+    <date>2013-02-25T18:09:01Z</date>
     <groups>
         <group>
-            <name>My Templates</name>
+            <name>Templates</name>
         </group>
     </groups>
     <templates>
@@ -13,7 +13,7 @@
             <name>Ceph Cluster</name>
             <groups>
                 <group>
-                    <name>My Templates</name>
+                    <name>Templates</name>
                 </group>
             </groups>
             <applications>
@@ -1042,7 +1042,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>ceph.rwbps</key>
+                    <key>ceph.wrbps</key>
                     <delay>30</delay>
                     <history>90</history>
                     <trends>365</trends>
@@ -1188,7 +1188,7 @@
                     <type>0</type>
                     <item>
                         <host>Templace_Ceph_Cluster</host>
-                        <key>ceph.rwbps</key>
+                        <key>ceph.wrbps</key>
                     </item>
                 </graph_item>
             </graph_items>
