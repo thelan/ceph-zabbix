@@ -37,7 +37,7 @@ then
 fi
 
 # write kbps B/s
-wrbps=$(echo $pginfo | sed -n '/pgmap/s/.* \([0-9]*.\)B\/s wr.*/\1/p' | sed -e "s/K/*1000/g;s/M/*1000*1000/;s/G/*1000*1000*1000/" | bc)
+wrbps=$(echo $pginfo | sed -n '/pgmap/s/.* \([0-9]*.\)B\/s wr.*/\1/p' | sed -e "s/K/*1000/g;s/M/*1000*1000/;s/G/*1000*1000*1000/;s/E/*1000*1000*1000*1000/" | bc)
 if [[ "$wrbps" == "" ]]
 then
   wrbps=0
