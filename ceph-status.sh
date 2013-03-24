@@ -24,7 +24,7 @@ remapped=0
 pginfo=$(ceph status | sed -n "s/.*pgmap/pgmap/p")
 pgtotal=$(echo $pginfo | cut -d':' -f2 | sed 's/[^0-9]//g')
 pgstats=$(echo $pginfo | cut -d':' -f3 | cut -d';' -f1| sed 's/ /\\ /g')
-pggdegraded=$(echo $pginfo | cut -d';' -f2|sed -n '/degraded/s/.*degraded (\([^%]*\)%.*/\1/p')
+pggdegraded=$(echo $pginfo | sed -n '/degraded/s/.* degraded (\([^%]*\)%.*/\1/p')
 if [[ "$pggdegraded" == "" ]]
 then
   pggdegraded=0
