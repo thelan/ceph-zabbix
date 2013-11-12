@@ -1,5 +1,8 @@
 #!/bin/bash
 
+ceph_bin="/usr/bin/ceph"
+rados_bin="/usr/bin/rados"
+
 # Initialising variables
 # See: http://ceph.com/docs/master/rados/operations/pg-states/
 creating=0
@@ -21,7 +24,7 @@ stale=0
 remapped=0
 
 # Get data
-pginfo=$(ceph status | sed -n "s/.*pgmap/pgmap/p")
+pginfo=$($ceph_bin status | sed -n "s/.*pgmap/pgmap/p")
 pgtotal=$(echo $pginfo | cut -d':' -f2 | sed 's/[^0-9]//g')
 pgstats=$(echo $pginfo | cut -d':' -f3 | cut -d';' -f1| sed 's/ /\\ /g')
 pggdegraded=$(echo $pginfo | sed -n '/degraded/s/.* degraded (\([^%]*\)%.*/\1/p')
@@ -34,6 +37,13 @@ pgunfound=$(echo $pginfo | cut -d';' -f2|sed -n '/unfound/s/.*unfound (\([^%]*\)
 if [[ "$pgunfound" == "" ]]
 then
   pgunfound=0
+fi
+
+# write kbps B/s
+rdbps=$(echo $pginfo | sed -n '/pgmap/s/.* \([0-9]*.\)B\/s rd.*/\1/p' | sed -e "s/K/*1000/g;s/M/*1000*1000/;s/G/*1000*1000*1000/;s/E/*1000*1000*1000*1000/" | bc)
+if [[ "$rdbps" == "" ]]
+then
+  rdbps=0
 fi
 
 # write kbps B/s
@@ -148,8 +158,8 @@ done
 
 function ceph_osd_up_percent()
 {
-  OSD_COUNT=$(ceph osd dump |grep "^osd"| wc -l)
-  OSD_DOWN=$(ceph osd dump |grep "^osd"| awk '{print $1 " " $2 " " $3}'|grep up|wc -l)
+  OSD_COUNT=$($ceph_bin osd dump |grep "^osd"| wc -l)
+  OSD_DOWN=$($ceph_bin osd dump |grep "^osd"| awk '{print $1 " " $2 " " $3}'|grep up|wc -l)
   COUNT=$(echo "scale=2; $OSD_DOWN*100/$OSD_COUNT" |bc)
   if [[ "$COUNT" != "" ]]
   then
@@ -161,8 +171,8 @@ function ceph_osd_up_percent()
 
 function ceph_osd_in_percent()
 {
-  OSD_COUNT=$(ceph osd dump |grep "^osd"| wc -l)
-  OSD_DOWN=$(ceph osd dump |grep "^osd"| awk '{print $1 " " $2 " " $3}'|grep in|wc -l)
+  OSD_COUNT=$($ceph_bin osd dump |grep "^osd"| wc -l)
+  OSD_DOWN=$($ceph_bin osd dump |grep "^osd"| awk '{print $1 " " $2 " " $3}'|grep in|wc -l)
   COUNT=$(echo "scale=2; $OSD_DOWN*100/$OSD_COUNT" | bc)
   if [[ "$COUNT" != "" ]]
   then
@@ -175,7 +185,7 @@ function ceph_osd_in_percent()
 
 function ceph_mon_get_active()
 {
-  ACTIVE=$(ceph status|sed -n '/monmap/s/.* \([0-9]*\) mons.*/\1/p')
+  ACTIVE=$($ceph_bin status|sed -n '/monmap/s/.* \([0-9]*\) mons.*/\1/p')
   if [[ "$ACTIVE" != "" ]]
   then
     echo $ACTIVE
@@ -187,13 +197,13 @@ function ceph_mon_get_active()
 # Return the value
 case $1 in
   rados_total)
-    rados df | grep "total space"| awk '{print $3}'
+    $rados_bin df | grep "total space"| awk '{print $3}'
   ;;
   rados_used)
-    rados df | grep "total used"| awk '{print $3}'
+    $rados_bin df | grep "total used"| awk '{print $3}'
   ;;
   rados_free)
-    rados df | grep "total avail"| awk '{print $3}'
+    $rados_bin df | grep "total avail"| awk '{print $3}'
   ;;
   mon)
     ceph_mon_get_active
@@ -266,5 +276,8 @@ case $1 in
   ;;
   wrbps)
     echo $wrbps
+  ;;
+  rdbps)
+    echo $rdbps
   ;;
 esac
