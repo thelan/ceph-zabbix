@@ -198,7 +198,7 @@ function ceph_mon_get_active()
 case $1 in
   health)
     status=$($ceph_bin health | awk '{print $1}')
-    case $stats in
+    case $status in
       HEALTH_OK)
         echo 1
       ;;
