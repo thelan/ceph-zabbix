@@ -196,6 +196,23 @@ function ceph_mon_get_active()
 
 # Return the value
 case $1 in
+  health)
+    status=$($ceph_bin health | awk '{print $1}')
+    case $stats in
+      HEALTH_OK)
+        echo 1
+      ;;
+      HEALTH_WARN)
+        echo 2
+      ;;
+      HEALTH_ERR)
+        echo 3
+      ;;
+      *)
+        echo -1
+      ;;
+    esac
+  ;;
   rados_total)
     $rados_bin df | grep "total space"| awk '{print $3}'
   ;;
