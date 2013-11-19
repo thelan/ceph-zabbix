@@ -40,14 +40,14 @@ then
 fi
 
 # write kbps B/s
-rdbps=$(echo $pginfo | sed -n '/pgmap/s/.* \([0-9]*.\)B\/s rd.*/\1/p' | sed -e "s/K/*1000/g;s/M/*1000*1000/;s/G/*1000*1000*1000/;s/E/*1000*1000*1000*1000/" | bc)
+rdbps=$(echo $pginfo | sed -n '/pgmap/s/.* \([0-9]* .\)B\/s rd.*/\1/p' | sed -e "s/K/*1000/ig;s/M/*1000*1000/i;s/G/*1000*1000*1000/i;s/E/*1000*1000*1000*1000/i" | bc)
 if [[ "$rdbps" == "" ]]
 then
   rdbps=0
 fi
 
 # write kbps B/s
-wrbps=$(echo $pginfo | sed -n '/pgmap/s/.* \([0-9]*.\)B\/s wr.*/\1/p' | sed -e "s/K/*1000/g;s/M/*1000*1000/;s/G/*1000*1000*1000/;s/E/*1000*1000*1000*1000/" | bc)
+wrbps=$(echo $pginfo | sed -n '/pgmap/s/.* \([0-9]* .\)B\/s wr.*/\1/p' | sed -e "s/K/*1000/ig;s/M/*1000*1000/i;s/G/*1000*1000*1000/i;s/E/*1000*1000*1000*1000/i" | bc)
 if [[ "$wrbps" == "" ]]
 then
   wrbps=0
