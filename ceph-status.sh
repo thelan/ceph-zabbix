@@ -54,7 +54,7 @@ then
 fi
 
 # ops
-ops=$(echo $pginfo | sed -n '/pgmap/s/.* \([0-9]*\)op\/s.*/\1/p')
+ops=$(echo $pginfo | sed -n '/pgmap/s/.* \([0-9]*\) op\/s.*/\1/p')
 if [[ "$ops" == "" ]]
 then
   ops=0
