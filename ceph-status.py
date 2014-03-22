@@ -1,4 +1,10 @@
 #!/usr/bin/python
+#
+# ceph-status.py Zabbix plugin for Ceph monitoring
+# Copyright (c) 2014 Marcos Amorim <marcosmamorim@gmail.com>
+# 
+# This code is based in ceph-status.sh develped by Julien Recurt <julien@recurt.fr>
+#
 
 import sys
 import json
@@ -59,8 +65,15 @@ states_count = { "creating": 0,
 		 "ops": 0
 	      }
 
+'''Util to calculate percents values'''
+def percentUtil(v1, v2):
+	if v1 == 0:
+		return 0
+
+	return round(float(v1)*100/float(v2), 2)
+
 '''Create zabbix_ceph.conf'''
-def GenerateZabbix():
+def CreateZabbix():
 	for i in sorted(states_count):
 		print "UserParameter=ceph.%s, %s %s" % (i, script_name, i)
 
@@ -68,7 +81,7 @@ def GenerateZabbix():
 def Usage():
 	print "Help %s" % sys.argv[0]
 	for i in sorted(states_count):
-		print "\t%s/%s %s" % (script_path, sys.argv[0], i)
+		print "\t%s %s" % (script_name, i)
 
 	print "\t%s zabbix-conf\tCreate zabbix_ceph.conf" % script_name
 
@@ -134,21 +147,10 @@ def GetOsd():
 			up += 1
 		else:
 			down += 1
-
-	if down > 0:
-		states_count['osd_down'] = round(float(down)*100/float(max_osd), 2)
-	else:
-		 states_count['osd_down'] = 0
-
-	if up > 0:
-		states_count['osd_up'] = round(float(up)*100/float(max_osd), 2)
-	else:
-		states_count['osd_up'] = 0
-
-	if ok > 0:
-		states_count['osd_in'] = round(float(ok)*100/float(max_osd), 2)
-	else:
-		states_count['osd_in'] = 0
+	
+	states_count['osd_down'] = percentUtil(down, max_osd)
+	states_count['osd_up'] = percentUtil(up, max_osd)
+	states_count['osd_in'] = percentUtil(ok, max_osd)
 
 '''Get all information about cluster utilisation'''
 def SpaceRados():
@@ -210,15 +212,12 @@ def Info():
 	states_count['pgtotal'] = len(data['pg_stats'])
 	states_count['pg_stats'] = data['pg_stats'][0]['state']
 
-	pggdegraded = data['pg_stats_sum']['stat_sum']['num_objects_degraded']
+	pgdegraded = data['pg_stats_sum']['stat_sum']['num_objects_degraded']
 	pgobjects = data['pg_stats_sum']['stat_sum']['num_objects']
 
-	if pggdegraded > 0:
-		degraded_percent = round(float(pggdegraded)*100/float(pgobjects),2)
-	else:
-		degraded_percent = 0
+	degraded_percent = percentUtil(pgdegraded, pgobjects)
 
-	states_count['pggdegraded'] = pggdegraded
+	states_count['pgdegraded'] = pgdegraded
 	states_count['degraded_percent'] = degraded_percent
 	states_count['pgunfound'] = data['pg_stats_sum']['stat_sum']['num_objects_unfound']
 
@@ -231,34 +230,32 @@ def Info():
 '''Main'''
 def main():
     #TODO: Best options to call function where will be use
-	# parse command line options
 	try:
 		opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
 	except getopt.error, msg:
 		print msg
 		print "for help use --help"
 		sys.exit(2)
+
 	# process options
 	for o, a in opts:
 		if o in ("-h", "--help"):
 			Usage()
 			sys.exit(0)
 
-	if len(args) > 0:
-		Info()
-		Health()
-		Monitors()
-		GetOsd()
-		SpaceRados()
-	else:
+	if len(args) == 0:
 		Usage()
-	# process arguments
+
 	for arg in args:
 		if arg == "zabbix-conf":
-			GenerateZabbix()
-		if arg in states_count:
+			CreateZabbix()
+		elif arg in states_count:
+			Info()
+			Health()
+			Monitors()
+			GetOsd()
+			SpaceRados()
 			print "%s" % (states_count[arg])
-		#process(arg) # process() is defined elsewhere
 
 if __name__ == "__main__":
     main()
