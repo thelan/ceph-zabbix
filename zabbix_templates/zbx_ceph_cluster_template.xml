@@ -106,7 +106,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>cpeh.count</key>
+                    <key>ceph.count</key>
                     <delay>30</delay>
                     <history>90</history>
                     <trends>365</trends>
