@@ -97,7 +97,7 @@ do
 
     if [ "$(echo $data | grep splitting | wc -l)" == 1 ]
     then
-	  splitting=$(echo $splitting+$number|bc)	  
+	  splitting=$(echo $splitting+$number|bc)
     fi
 
     if [ "$(echo $data | grep scrubbing | wc -l)" == 1 ]
@@ -156,11 +156,12 @@ do
     fi
 done
 
+ceph_osd_count=$($ceph_bin osd dump |grep "^osd"| wc -l)
+
 function ceph_osd_up_percent()
 {
-  OSD_COUNT=$($ceph_bin osd dump |grep "^osd"| wc -l)
   OSD_DOWN=$($ceph_bin osd dump |grep "^osd"| awk '{print $1 " " $2 " " $3}'|grep up|wc -l)
-  COUNT=$(echo "scale=2; $OSD_DOWN*100/$OSD_COUNT" |bc)
+  COUNT=$(echo "scale=2; $OSD_DOWN*100/$ceph_osd_count" |bc)
   if [[ "$COUNT" != "" ]]
   then
     echo $COUNT
@@ -171,16 +172,14 @@ function ceph_osd_up_percent()
 
 function ceph_osd_in_percent()
 {
-  OSD_COUNT=$($ceph_bin osd dump |grep "^osd"| wc -l)
   OSD_DOWN=$($ceph_bin osd dump |grep "^osd"| awk '{print $1 " " $2 " " $3}'|grep in|wc -l)
-  COUNT=$(echo "scale=2; $OSD_DOWN*100/$OSD_COUNT" | bc)
+  COUNT=$(echo "scale=2; $OSD_DOWN*100/$ceph_osd_count" | bc)
   if [[ "$COUNT" != "" ]]
   then
     echo $COUNT
   else
     echo "0"
   fi
-
 }
 
 function ceph_mon_get_active()
@@ -224,6 +223,9 @@ case $1 in
   ;;
   mon)
     ceph_mon_get_active
+  ;;
+  count)
+    echo $ceph_osd_count
   ;;
   up)
     ceph_osd_up_percent

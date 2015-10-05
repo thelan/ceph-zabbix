@@ -105,6 +105,37 @@
                     </applications>
                     <snmp_port>161</snmp_port>
                 </item>
+                <item type="0" key="ceph.count" value_type="3">
+                    <description>Ceph OSD count</description>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <delay>30</delay>
+                    <history>90</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <logtimefmt/>
+                    <applications>
+                        <application>Ceph Cluster</application>
+                    </applications>
+                    <snmp_port>161</snmp_port>
+                </item>
                 <item type="0" key="ceph.osd_in" value_type="0">
                     <description>Ceph OSD in %</description>
                     <snmp_community/>
