@@ -39,6 +39,38 @@
                 </trigger>
             </triggers>
             <items>
+                <item type="0" key="ceph.health" value_type="3">
+                    <description>Ceph Cluster health</description>
+                    <type>0</type>
+                    <snmp_community/>
+                    <snmp_oid/>
+                    <delay>30</delay>
+                    <history>90</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <applications>
+                        <application>Ceph Cluster</application>
+                    </applications>
+                    <logtimefmt/>
+                    <snmp_port>161</snmp_port>
+                </item>
                 <item type="0" key="ceph.mon" value_type="3">
                     <description>Ceph active MON</description>
                     <snmp_community/>
