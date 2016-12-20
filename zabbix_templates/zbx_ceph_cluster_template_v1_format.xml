@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export version="1.0" date="11.04.14" time="19.30">
     <hosts>
-        <host name="Templace_Ceph_Cluster">
+        <host name="Template_Ceph_Cluster">
             <proxy_hostid>0</proxy_hostid>
             <useip>1</useip>
             <dns></dns>
@@ -22,7 +22,7 @@
                 <trigger>
                     <description>Ceph cluster has degraded PGs</description>
                     <type>0</type>
-                    <expression>{Templace_Ceph_Cluster:ceph.degraded.last(0)}&gt;0</expression>
+                    <expression>{Template_Ceph_Cluster:ceph.degraded.last(0)}&gt;0</expression>
                     <url/>
                     <status>0</status>
                     <priority>4</priority>
@@ -31,7 +31,7 @@
                 <trigger>
                     <description>Ceph cluster has down PGs</description>
                     <type>0</type>
-                    <expression>{Templace_Ceph_Cluster:ceph.down.last(0)}&gt;0</expression>
+                    <expression>{Template_Ceph_Cluster:ceph.down.last(0)}&gt;0</expression>
                     <url/>
                     <status>0</status>
                     <priority>3</priority>
@@ -1044,7 +1044,7 @@
                     <ymin_item_key></ymin_item_key>
                     <ymax_item_key></ymax_item_key>
                     <graph_elements>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.rados_total">
+                        <graph_element item="Template_Ceph_Cluster:ceph.rados_total">
                             <sortorder>0</sortorder>
                             <drawtype>1</drawtype>
                             <color>00EE00</color>
@@ -1053,7 +1053,7 @@
                             <type>0</type>
                             <periods_cnt>5</periods_cnt>
                         </graph_element>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.rados_used">
+                        <graph_element item="Template_Ceph_Cluster:ceph.rados_used">
                             <sortorder>1</sortorder>
                             <drawtype>1</drawtype>
                             <color>EE0000</color>
@@ -1079,7 +1079,7 @@
                     <ymin_item_key></ymin_item_key>
                     <ymax_item_key></ymax_item_key>
                     <graph_elements>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.ops">
+                        <graph_element item="Template_Ceph_Cluster:ceph.ops">
                             <sortorder>1</sortorder>
                             <drawtype>1</drawtype>
                             <color>C80000</color>
@@ -1088,7 +1088,7 @@
                             <type>0</type>
                             <periods_cnt>5</periods_cnt>
                         </graph_element>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.wrbps">
+                        <graph_element item="Template_Ceph_Cluster:ceph.wrbps">
                             <sortorder>0</sortorder>
                             <drawtype>0</drawtype>
                             <color>00C800</color>
@@ -1097,7 +1097,7 @@
                             <type>0</type>
                             <periods_cnt>5</periods_cnt>
                         </graph_element>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.rdbps">
+                        <graph_element item="Template_Ceph_Cluster:ceph.rdbps">
                             <sortorder>0</sortorder>
                             <drawtype>0</drawtype>
                             <color>0000C8</color>
@@ -1123,7 +1123,7 @@
                     <ymin_item_key></ymin_item_key>
                     <ymax_item_key></ymax_item_key>
                     <graph_elements>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.rados_free">
+                        <graph_element item="Template_Ceph_Cluster:ceph.rados_free">
                             <sortorder>0</sortorder>
                             <drawtype>0</drawtype>
                             <color>00EE00</color>
@@ -1132,7 +1132,7 @@
                             <type>0</type>
                             <periods_cnt>5</periods_cnt>
                         </graph_element>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.rados_used">
+                        <graph_element item="Template_Ceph_Cluster:ceph.rados_used">
                             <sortorder>1</sortorder>
                             <drawtype>0</drawtype>
                             <color>EE0000</color>
@@ -1158,7 +1158,7 @@
                     <ymin_item_key></ymin_item_key>
                     <ymax_item_key></ymax_item_key>
                     <graph_elements>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.degraded_percent">
+                        <graph_element item="Template_Ceph_Cluster:ceph.degraded_percent">
                             <sortorder>0</sortorder>
                             <drawtype>5</drawtype>
                             <color>CC0000</color>
@@ -1184,7 +1184,7 @@
                     <ymin_item_key></ymin_item_key>
                     <ymax_item_key></ymax_item_key>
                     <graph_elements>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.recovering">
+                        <graph_element item="Template_Ceph_Cluster:ceph.recovering">
                             <sortorder>0</sortorder>
                             <drawtype>0</drawtype>
                             <color>C80000</color>
@@ -1193,7 +1193,7 @@
                             <type>0</type>
                             <periods_cnt>5</periods_cnt>
                         </graph_element>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.remapped">
+                        <graph_element item="Template_Ceph_Cluster:ceph.remapped">
                             <sortorder>1</sortorder>
                             <drawtype>0</drawtype>
                             <color>00C800</color>
@@ -1202,7 +1202,7 @@
                             <type>0</type>
                             <periods_cnt>5</periods_cnt>
                         </graph_element>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.peering">
+                        <graph_element item="Template_Ceph_Cluster:ceph.peering">
                             <sortorder>2</sortorder>
                             <drawtype>0</drawtype>
                             <color>0000C8</color>
@@ -1228,7 +1228,7 @@
                     <ymin_item_key></ymin_item_key>
                     <ymax_item_key></ymax_item_key>
                     <graph_elements>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.osd_up">
+                        <graph_element item="Template_Ceph_Cluster:ceph.osd_up">
                             <sortorder>0</sortorder>
                             <drawtype>5</drawtype>
                             <color>00EE00</color>
@@ -1237,7 +1237,7 @@
                             <type>0</type>
                             <periods_cnt>5</periods_cnt>
                         </graph_element>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.osd_in">
+                        <graph_element item="Template_Ceph_Cluster:ceph.osd_in">
                             <sortorder>1</sortorder>
                             <drawtype>2</drawtype>
                             <color>CC0000</color>
@@ -1263,7 +1263,7 @@
                     <ymin_item_key></ymin_item_key>
                     <ymax_item_key></ymax_item_key>
                     <graph_elements>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.clean">
+                        <graph_element item="Template_Ceph_Cluster:ceph.clean">
                             <sortorder>1</sortorder>
                             <drawtype>2</drawtype>
                             <color>00EE00</color>
@@ -1272,7 +1272,7 @@
                             <type>0</type>
                             <periods_cnt>5</periods_cnt>
                         </graph_element>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.active">
+                        <graph_element item="Template_Ceph_Cluster:ceph.active">
                             <sortorder>0</sortorder>
                             <drawtype>5</drawtype>
                             <color>0000EE</color>
@@ -1298,7 +1298,7 @@
                     <ymin_item_key></ymin_item_key>
                     <ymax_item_key></ymax_item_key>
                     <graph_elements>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.degraded">
+                        <graph_element item="Template_Ceph_Cluster:ceph.degraded">
                             <sortorder>0</sortorder>
                             <drawtype>0</drawtype>
                             <color>00EE00</color>
@@ -1307,7 +1307,7 @@
                             <type>0</type>
                             <periods_cnt>5</periods_cnt>
                         </graph_element>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.down">
+                        <graph_element item="Template_Ceph_Cluster:ceph.down">
                             <sortorder>3</sortorder>
                             <drawtype>0</drawtype>
                             <color>EE0000</color>
@@ -1316,7 +1316,7 @@
                             <type>0</type>
                             <periods_cnt>5</periods_cnt>
                         </graph_element>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.incomplete">
+                        <graph_element item="Template_Ceph_Cluster:ceph.incomplete">
                             <sortorder>1</sortorder>
                             <drawtype>0</drawtype>
                             <color>0000C8</color>
@@ -1325,7 +1325,7 @@
                             <type>0</type>
                             <periods_cnt>5</periods_cnt>
                         </graph_element>
-                        <graph_element item="Templace_Ceph_Cluster:ceph.inconsistent">
+                        <graph_element item="Template_Ceph_Cluster:ceph.inconsistent">
                             <sortorder>2</sortorder>
                             <drawtype>0</drawtype>
                             <color>C800C8</color>
