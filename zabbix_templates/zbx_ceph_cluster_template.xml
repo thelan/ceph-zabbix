@@ -9,7 +9,7 @@
     </groups>
     <templates>
         <template>
-            <template>Templace_Ceph_Cluster</template>
+            <template>Template_Ceph_Cluster</template>
             <name>Ceph Cluster</name>
             <groups>
                 <group>
@@ -1213,7 +1213,7 @@
     </templates>
     <triggers>
         <trigger>
-            <expression>{Templace_Ceph_Cluster:ceph.degraded.last(0)}&gt;0</expression>
+            <expression>{Template_Ceph_Cluster:ceph.degraded.last(0)}&gt;0</expression>
             <name>Ceph cluster has degraded PGs</name>
             <url/>
             <status>0</status>
@@ -1223,7 +1223,7 @@
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Templace_Ceph_Cluster:ceph.down.last(0)}&gt;0</expression>
+            <expression>{Template_Ceph_Cluster:ceph.down.last(0)}&gt;0</expression>
             <name>Ceph cluster has down PGs</name>
             <url/>
             <status>0</status>
@@ -1260,7 +1260,7 @@
                     <calc_fnc>1</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.rados_total</key>
                     </item>
                 </graph_item>
@@ -1272,7 +1272,7 @@
                     <calc_fnc>4</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.rados_used</key>
                     </item>
                 </graph_item>
@@ -1304,7 +1304,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.ops</key>
                     </item>
                 </graph_item>
@@ -1316,7 +1316,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.wrbps</key>
                     </item>
                 </graph_item>
@@ -1328,7 +1328,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.rdbps</key>
                     </item>
                 </graph_item>
@@ -1361,7 +1361,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.rados_free</key>
                     </item>
                 </graph_item>
@@ -1373,7 +1373,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.rados_used</key>
                     </item>
                 </graph_item>
@@ -1405,7 +1405,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.degraded_percent</key>
                     </item>
                 </graph_item>
@@ -1437,7 +1437,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.recovering</key>
                     </item>
                 </graph_item>
@@ -1449,7 +1449,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.remapped</key>
                     </item>
                 </graph_item>
@@ -1461,7 +1461,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.peering</key>
                     </item>
                 </graph_item>
@@ -1493,7 +1493,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.osd_up</key>
                     </item>
                 </graph_item>
@@ -1505,7 +1505,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.osd_in</key>
                     </item>
                 </graph_item>
@@ -1537,7 +1537,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.clean</key>
                     </item>
                 </graph_item>
@@ -1549,7 +1549,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.active</key>
                     </item>
                 </graph_item>
@@ -1581,7 +1581,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.degraded</key>
                     </item>
                 </graph_item>
@@ -1593,7 +1593,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.down</key>
                     </item>
                 </graph_item>
@@ -1605,7 +1605,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.incomplete</key>
                     </item>
                 </graph_item>
@@ -1617,7 +1617,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>Templace_Ceph_Cluster</host>
+                        <host>Template_Ceph_Cluster</host>
                         <key>ceph.inconsistent</key>
                     </item>
                 </graph_item>
