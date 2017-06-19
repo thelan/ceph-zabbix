@@ -1234,21 +1234,14 @@
         </trigger>
         <trigger>
             <expression>{Template_Ceph_Cluster:ceph.health.last()}&lt;&gt;1</expression>
-            <recovery_mode>0</recovery_mode>
-            <recovery_expression/>
             <name>Ceph cluster is not healthy</name>
-            <correlation_mode>0</correlation_mode>
-            <correlation_tag/>
             <url/>
             <status>0</status>
             <priority>5</priority>
             <description>This will throw an alert if status is anything other than healthy. &#13;
 You can change it to do &gt;=3 if you want it to only alert on error.</description>
-            <description/>
             <type>0</type>
-            <manual_close>0</manual_close>
             <dependencies/>
-            <tags/>
         </trigger>
     </triggers>
     <graphs>
